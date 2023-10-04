@@ -1,0 +1,108 @@
+/*CREATING THE TABLE THROUGH QUERY , create 2 tables */
+
+Create Table StudentData
+(RollNo int,
+FisrtName varchar(50),
+MiddleName varchar(50),
+LastName varchar(50),
+Age int,
+Marksobtained int,
+totalmarks int)
+
+/*execute*/
+
+/*INSERT THE DATA IN THE TABLE*/
+
+INSERT INTO StudentData VALUES
+(1, 'Amit', 'v', 'chand', 28, 64, 100),
+(2, 'Amruth','Jai', 'Ram', 34, 77, 100),
+(3, 'Archana', 'Ram', 'Charan' , 36, 88, 100),
+(4, 'Archies', 'Ratro', 'diago' , 33, 88, 100),
+(5, 'brancho', 'singh', 'gupta' , 43, 80, 100)
+
+/*execute */
+
+/* SELECT Statement 
+*, Top , Distant, Count, As, Max , min , Avg */
+
+SELECT *
+FROM StudentData
+
+SELECT Distinct*
+FROM StudentData
+
+SELECT Distinct (RollNo)
+FROM StudentData
+
+
+SELECT COUNT (RollNo)
+FROM StudentData
+
+SELECT COUNT (RollNo) As Lastnamecount  /* name in the coloumn*/
+FROM StudentData
+
+
+SELECT MAX(marksobtained)
+FROM StudentData
+
+SELECT MIN(marksobtained)
+FROM StudentData
+
+
+SELECT AVG(marksobtained)
+FROM StudentData
+
+SELECT Distinct*
+FROM SQL Tutorial.dbo.studentdata
+
+
+/* where statement 
+=,<>, <,>,And, Or, Like , Null , Not Null, In */
+
+SELECT *
+FROM StudentData
+WHERE FIRSTNAME = 'Hars'
+
+SELECT *
+FROM StudentData
+WHERE age > 40
+
+
+SELECT *
+FROM StudentData
+WHERE age >= 40
+
+SELECT *
+FROM StudentData
+WHERE age <= 40
+
+SELECT *
+FROM StudentData1
+WHERE age <= 40 AND place = 'Davanagere'
+
+SELECT *
+FROM StudentData1
+WHERE age <= 40 OR place = 'Davanagere'
+
+SELECT *
+FROM StudentData1
+WHERE FirstName LIKE 'A%'        /* name starting from A */
+
+SELECT *
+FROM StudentData1
+WHERE FirstName is NULL
+
+SELECT *
+FROM StudentData1
+WHERE FirstName is NOT NULL
+
+SELECT *
+FROM StudentData1
+WHERE FirstName IN ('Hars', 'Archana', 'Archies')
+
+
+/* Group by , order By */
+
+SELECT Gender
+FROM StudentData1
+GROUP BY place
