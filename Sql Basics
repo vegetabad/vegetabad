@@ -1,4 +1,4 @@
-/*CREATING THE TABLE THROUGH QUERY , create 2 tables */
+                                  /* TOPIC 1: CREATING THE TABLE THROUGH QUERY , create 2 tables */
 
 Create Table StudentData
 (RollNo int,
@@ -11,7 +11,7 @@ totalmarks int)
 
 /*execute*/
 
-/*INSERT THE DATA IN THE TABLE*/
+                                                        /*INSERT THE DATA IN THE TABLE*/
 
 INSERT INTO StudentData VALUES
 (1, 'Amit', 'v', 'chand', 28, 64, 100),
@@ -22,8 +22,7 @@ INSERT INTO StudentData VALUES
 
 /*execute */
 
-/* SELECT Statement 
-*, Top , Distant, Count, As, Max , min , Avg */
+                                                /*TOPIC 2:  SELECT Statement  *, Top , Distant, Count, As, Max , min , Avg */
 
 SELECT *
 FROM StudentData
@@ -54,8 +53,7 @@ SELECT Distinct*
 FROM SQL Tutorial.dbo.studentdata
 
 
-/* where statement 
-=,<>, <,>,And, Or, Like , Null , Not Null, In */
+                                                                    /* TOPIC 3: where statement  =,<>, <,>,And, Or, Like , Null , Not Null, In */
 
 SELECT *
 FROM StudentData
@@ -65,6 +63,7 @@ SELECT *
 FROM StudentData
 WHERE age > 40
 
+EXEC sp_rename 'StudentData.FisrtName', 'FirstName', 'COLUMN';    /* Changing the name of the coloumn */
 
 SELECT *
 FROM StudentData
@@ -98,17 +97,51 @@ SELECT *
 FROM StudentData1
 WHERE FirstName IN ('Hars', 'Archana', 'Archies')
 
-
-/* Group by , order By */
+ 
+                               /* TOPIC 4: Group by , order By */
 
 SELECT Gender
 FROM StudentData1
 GROUP BY place
 
 
+SELECT GENDER 
+FROm EmployeeDemographics
+GROUP BY Gender
 
 
-/* Inner Join , Outer LEFT,RIGHT Join  */
+SELECT GENDER , COUNT(GENDER) 
+FROm EmployeeDemographics
+GROUP BY Gender
+
+
+
+SELECT GENDER ,age,COUNT(GENDER) AS TotalGender
+FROm EmployeeDemographics
+GROUP BY GENDER, age
+
+SELECT  GENDER ,age, COUNT(GENDER)
+FROm EmployeeDemographics
+WHERE Age>30
+GROUP BY Gender,age
+
+SELECT  GENDER ,age, COUNT(GENDER) As GenderCount
+FROm EmployeeDemographics
+GROUP BY Gender,age
+ORDER BY GenderCount 
+
+SELECT DISTINCT *
+FROm EmployeeDemographics
+ORDER BY 4 desc, 5 desc
+
+SELECT DISTINCT *
+FROm EmployeeDemographics
+Where Age is NOT NULL
+ORDER BY 4 
+
+
+
+            /* TOPIC 5: Inner Join , Outer LEFT,RIGHT Join  */
 
 SELECT DISTINCT *
     FROM EmployeeDemographics
@@ -219,10 +252,7 @@ FROM EmployeeDemographics
 Union EmployeeSalary
 ON 
 
-/* Union , Union All  inserted new rows in EmployeeDemographics and created WareHouseEmployeeDemographics */
-
-INSERT INTO EmployeeDemographics VALUES
-
+                   /* TOPIC 6: Union , Union All  inserted new rows in EmployeeDemographics and created WareHouseEmployeeDemographics */
 
 CREATE TABLE WareHouseEmployeeDemographics
 ( EmployeeID int,
@@ -269,7 +299,7 @@ ORDER BY EmployeeID
 /* data types must be same to use Union */
 
 
-/* Topic 8: Case statement */
+                                               /* Topic 7: Case statement */
 
 SELECT DISTINCT *
 FROM EmployeeDemographics
@@ -285,6 +315,16 @@ FROM EmployeeDemographics
 WHERE Age is NOT NULL
 ORDER BY Age          
 
+SELECT Distinct EMployeeId,FirstName ,Age,Gender,
+CASE
+WHEN age <= 30 then 'GM'
+WHen age >= 38 then 'NOT ELIGIBLE'
+when age >=35 then 'SC & ST'
+when age > 30 then 'OBC'
+End As AgeGroup
+FROM EmployeeDemographics 
+Where age is NOT NULL
+order By age
 
 SELECT DISTINCT FirstName,LastName, JobTitle, Salary
 FROM EmployeeDemographics
