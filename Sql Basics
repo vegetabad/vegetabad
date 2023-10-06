@@ -34,13 +34,11 @@ FROM StudentData
 SELECT Distinct (RollNo)
 FROM StudentData
 
-
 SELECT COUNT (RollNo)
 FROM StudentData
 
 SELECT COUNT (RollNo) As Lastnamecount  /* name in the coloumn*/
 FROM StudentData
-
 
 SELECT MAX(marksobtained)
 FROM StudentData
@@ -106,3 +104,273 @@ WHERE FirstName IN ('Hars', 'Archana', 'Archies')
 SELECT Gender
 FROM StudentData1
 GROUP BY place
+
+
+
+
+/* Inner Join , Outer LEFT,RIGHT Join  */
+
+SELECT DISTINCT *
+    FROM EmployeeDemographics
+    
+    SELECT DISTINCT*
+    FROM EmployeeSalary
+
+	SELECT DISTINCT*
+FROM EmployeeDemographics
+Inner Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+
+
+Insert into EmployeeDemographics VALUES
+
+(1011, 'Ryan', 'Howard', 26, 'Male'),
+
+(NULL, 'Holly','Flax', NULL, 'Male'),
+
+(1013, 'Darryl', 'Philbin', NULL, 'Male')
+
+Insert into EmployeeSalary VALUES
+
+(1010, NULL, 47000),
+
+(NULL, 'Salesman', 43000)
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+Inner Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+Full outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+Right outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+Left outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT EmployeeDemographics.EmployeeID, FirstName, LastName, JobTitle,Salary
+FROM EmployeeDemographics
+Inner Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT EmployeeDemographics.EmployeeID, FirstName, LastName, JobTitle,Salary
+FROM EmployeeDemographics
+Full outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT EmployeeDemographics.EmployeeID, FirstName, LastName, JobTitle,Salary
+FROM EmployeeDemographics
+Right outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT EmployeeDemographics.EmployeeID, FirstName, LastName, JobTitle,Salary
+FROM EmployeeDemographics
+Left outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT DISTINCT EmployeeSalary.EmployeeID, FirstName, LastName, JobTitle,Salary
+FROM EmployeeDemographics
+Full outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT Distinct*
+FROM EmployeeDemographics
+Full outer Join EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT Distinct EmployeeDemographics.EmployeeID,FirstName, LastName,Salary
+FROM EmployeeDemographics
+Inner JOin EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+Where FirstName <> 'Hars'   
+ORDER BY Salary Desc
+
+
+SELECT Distinct Salary, JobTitle
+FROM EmployeeDemographics
+Inner JOin EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+
+SELECT Distinct Salary, JobTitle
+FROM EmployeeDemographics
+Inner JOin EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+WHERE JobTitle = 'Salesman'
+
+SELECT Distinct JobTitle , AVG(Salary)
+FROM EmployeeDemographics
+Inner JOin EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+WHERE JobTitle = 'Salesman'
+GROUP BY JobTitle
+
+SELECT DISTINCT *
+FROM EmployeeDemographics 
+Union EmployeeSalary
+ON 
+
+/* Union , Union All  inserted new rows in EmployeeDemographics and created WareHouseEmployeeDemographics */
+
+INSERT INTO EmployeeDemographics VALUES
+
+
+CREATE TABLE WareHouseEmployeeDemographics
+( EmployeeID int,
+FirstName Varchar(50),
+LastName Varchar (50),
+Age int,
+Gender Varchar (50))
+
+INSERT INTO WareHouseEmployeeDemographics VALUES
+(1013, 'Darryl', 'Philbin', NULL, 'Male'),
+
+(1050, 'Roy', 'Anderson', 31, 'Male'),
+
+(1051, 'Hidetoshi', 'Hasagawa', 40, 'Male'),
+
+(1052, 'Val', 'Johnson', 31, 'Female')
+
+
+
+SELECT Distinct*
+FROM EmployeeDemographics
+Full outer Join WareHouseEmployeeDemographics
+ON EmployeeDemographics.EmployeeID = WareHouseEmployeeDemographics.EmployeeID
+
+SELECT Distinct*
+FROM EmployeeDemographics
+
+SELECT *
+FROM WareHouseEmployeeDemographics
+
+SELECT Distinct*
+FROM EmployeeDemographics
+UNION
+SELECT *
+FROM WareHouseEmployeeDemographics
+
+SELECT  *
+FROM EmployeeDemographics
+UNION ALL
+SELECT  *
+FROM WareHouseEmployeeDemographics
+ORDER BY EmployeeID
+
+/* data types must be same to use Union */
+
+
+/* Topic 8: Case statement */
+
+SELECT DISTINCT *
+FROM EmployeeDemographics
+
+SELECT DISTINCT FirstName ,Age, Gender,
+CASE
+     WHEN age < 30 THEN 'youngest' 
+WHEN Age > 35 THEN 'Older'
+WHEN age > 30 THEN 'Old'
+WHEN age = 30 THEN 'Young'
+END As AgeGroup
+FROM EmployeeDemographics
+WHERE Age is NOT NULL
+ORDER BY Age          
+
+
+SELECT DISTINCT FirstName,LastName, JobTitle, Salary
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+/* Salary rise */
+
+SELECT DISTINCT FirstName,JobTitle,Salary,
+CASE 
+WHEN Jobtitle = 'Salesman' Then Salary +(Salary * .10)
+WHEN Jobtitle = 'Manager' THEN Salary + (Salary * 1)
+WHEN Jobtitle = 'HR' THEN Salary + (Salary * -.50)
+ELSE Salary + ( Salary * .05) 
+END As SalaryHike
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+
+/*TOPIC 9: Having Clause */
+
+SELECT Jobtitle,COUNT(Jobtitle)AS TotalJobs, Avg(Salary) AS AvgSalary
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+GROUP BY JobTitle
+HAVING AVG(Salary) >45000
+ORDER BY Avg(Salary)
+
+
+SELECT DISTINCT Jobtitle,COUNT(Jobtitle)AS TotalJobs, Avg(Salary) AS AvgSalary
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID 
+GROUP BY JobTitle
+HAVING COUNT(JobTitle)>3
+ORDER BY Avg(Salary) 
+
+/* Updating /Deleting Data */
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+ORDER BY EmployeeID
+
+UPDATE EmployeeDemographics
+SET EmployeeID =1012
+WHERE FirstNAME = 'Holly'
+
+UPDATE EmployeeDemographics
+SET Gender = 'Male'
+WHERE FirstName = 'Pam'
+
+ 
+DELETE  
+FROM EmployeeDemographics
+WHERE EmployeeID = 1001
+
+INSERT INTO EmployeeDemographics VALUES
+(1001, 'HARS', 'DEV', 30,'Male')
+
+SELECT DISTINCT*
+FROM EmployeeDemographics
+ORDER BY EmployeeID
+
+
+/* TOPIC 11: Aliasing */
+
+SELECT FirstName As FName
+FROM EmployeeDemographics
+
+SELECT FirstName + ' '+ LastName As FullName
+FROM EmployeeDemographics
+
+
+SELECT Age
+FROM EmployeeDemographics
+
+SELECT AVG(age) AS AvgName 
+FROM EmployeeDemographics
+
+SELECT DISTINCT demo.EmployeeID, Demo.FirstName,Sal.JobTitle , Demo.Age
+FROM EmployeeDemographics Demo
+LEFT JOIN EmployeeSalary Sal
+ON Demo.EmployeeID = Sal.EmployeeID
+LEFT JOIN WareHouseEmployeeDemographics Ware
+ON Demo.EmployeeID= Ware.EmployeeID
+
+
