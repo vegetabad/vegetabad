@@ -414,3 +414,140 @@ LEFT JOIN WareHouseEmployeeDemographics Ware
 ON Demo.EmployeeID= Ware.EmployeeID
 
 
+
+ /* Partition by */
+
+  SELECT DISTINCT FirstName , Age, Gender, COUNT(Gender)
+  FROM EmployeeDemographics Dem
+  JOIN EmployeeSalary Sal
+  ON Dem.EmployeeID = Sal.EmployeeID
+  GROUP BY Gender , Age , FirstName
+
+
+  SELECT DISTINCT FirstNAme, Age, Salary, Gender, COUNT(Gender) OVER ( PARTITION BY Gender) As TotalGender
+  FROM EmployeeDemographics Dem
+  JOIN EmployeeSalary Sal
+  ON Dem.EmployeeID = Sal.EmployeeID
+  GROUP BY Gender , Age , FirstName , Salary
+  ORDER BY Age 
+
+
+/* Topic : CTEs (Common Table Expression*/
+
+WITH CTE_Employee as (
+SELECT DISTINCT Dem.EmployeeID , FirstName, LastName, Age ,JobTitle , COUNT(jobtitle) OVER (PARTITION BY 
+JobTitle)as JobtitleCount , Avg(Age)OVER ( Partition BY Age)as AVGAge , 
+Avg (Salary)OVER ( Partition BY Salary) As AVGSalary 
+FROM EmployeeDemographics Dem
+JOIN EmployeeSalary Sal
+ON Dem.EmployeeID=Sal.EmployeeID
+)
+SELECT JobTitle, JobtitleCount
+FROM CTE_Employee
+GROUP BY JobTitle , JobtitleCount
+
+
+
+  /* Topic: Temp Table Create and make dissappear using DROP TABLE IF EXISTS */
+
+  CREATE TABLE #temp_Employee (
+  EmployeeID int,
+  JobTitle Varchar(50),
+  Salary int
+  )
+
+  SELECT *
+  FROM #temp_Employee
+
+  INSERT INTO #temp_Employee VALUES
+  (2001, 'Engineer', 100000),
+  (2002, 'Data Engineer', 300000),
+  (2003, 'Product Engineer', 400000)
+
+
+  INSERT INTO #temp_Employee
+  SELECT DISTINCT *
+  FROM EmployeeSalary
+  WHERE EmployeeID is NOT NULL
+  And JobTitle is NOT NULL 
+  
+  SELECT DISTINCT*
+  FROM #temp_Employee
+  WHERE EmployeeID is NOT NULL
+  And JobTitle is NOT NULL 
+  ORDER BY Salary desc
+
+  CREATE TABLE  #temp_Employee2(
+  JobTitle Varchar (50),
+  EMployeesperjob int,
+  AVGSalary int,
+  AVGage  int)
+
+  INSERT INTO #temp_Employee2
+  SELECT DISTINCT JObTitle , COUNT(Jobtitle) , AVG(Salary), AVG(Age)
+  FROM EmployeeDemographics Dem
+  JOIN EmployeeSalary Sal
+  On Dem.EmployeeID=Sal.EmployeeID
+  GROUP BY JobTitle
+
+  SELECT *
+  FROM #temp_Employee2
+  ORDER BY AvgSalary
+
+
+  DROP TABLE IF EXISTS #temp_Employee2
+
+  SELECT *
+  FROM EmployeeDemographics
+
+  DROP TABLE IF EXISTS EmployeeDemographics
+
+  Create Table EmployeeDemographics 
+(EmployeeID int, 
+FirstName varchar(50), 
+LastName varchar(50), 
+Age int, 
+Gender varchar(50)
+)
+
+  Insert into EmployeeDemographics VALUES
+(1001, 'Jim', 'Halpert', 30, 'Male'),
+(1002, 'Pam', 'Beasley', 30, 'Female'),
+(1003, 'Dwight', 'Schrute', 29, 'Male'),
+(1004, 'Angela', 'Martin', 31, 'Female'),
+(1005, 'Toby', 'Flenderson', 32, 'Male'),
+(1006, 'Michael', 'Scott', 35, 'Male'),
+(1007, 'Meredith', 'Palmer', 32, 'Female'),
+(1008, 'Stanley', 'Hudson', 38, 'Male'),
+(1009, 'Kevin', 'Malone', 31, 'Male')
+
+
+* Topic : String Functions - TRIM , LTRIM , RTRIM , Replace, SubString , Upper , Lower  */
+
+CREATE TABLE EMployeeErrors (
+EmployeeID INt,
+FirstName Varchar (50),
+LastName Varchar(50),
+)
+
+INSERT INTO EMployeeErrors VALUES
+(1001,'   Hars','Dev'),
+(1002, 'Me gha', 'Ashok'),
+(1005, 'Mithu','MN')
+
+
+SELECT *
+FROM EMployeeErrors
+
+DROP TABLE IF EXISTS EMployeeErrors
+
+/*Trim gets rid of Blanck space */
+
+SELECT FirstName,TRIM(FirstName) as NameTrim
+FROM EmployeeErrors
+
+
+
+
+
+
