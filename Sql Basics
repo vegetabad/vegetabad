@@ -547,6 +547,136 @@ SELECT FirstName,TRIM(FirstName) as NameTrim
 FROM EmployeeErrors
 
 
+----uSING rEPLACE
+
+SELECT *
+FROM EMployeeErrors
+
+SELECT FirstNAme,lastnAME ,replace(FirstName,'Me gha','Megha') as ReplacedFName
+,replace(LastName,'MN','manu') as ReplacedLName
+FROM EMployeeErrors
+
+
+---using Substring only for Varchar
+SELECT *
+FROM EMployeeErrors
+
+SELECT FirstName,SUBSTRING (LAstName,1,1) As INitials
+FROM EMployeeErrors
+
+
+SELECT *
+FROM EMployeeErrors err
+JOIN EmployeeDemographics Dem
+ON err.EmployeeID=Dem.EmployeeID
+
+SELECT err.FirstName, Dem.FirstName
+FROM EMployeeErrors err
+JOIN EmployeeDemographics Dem
+ON err.FirstName=Dem.FirstName
+
+SELECT err.FirstName, SUBSTRING(err.FirstName,1,2)as Err,Dem.FirstName, SUBSTRING(Dem.FirstName,1,2) as Dem
+FROM EMployeeErrors err
+JOIN EmployeeDemographics Dem
+ON SUBSTRING(err.FirstName,1,2)= SUBSTRING(Dem.FirstName,1,2)
+
+
+
+----using UPPER And LOWER for lowercase and uppercase
+
+SELECT FirstName,UPPER(FirstName)as UPPERCASE, LastName,UPPER (LastName)as UPPERCASE
+From EmployeeDemographics
+
+/* TOPIC : STORED PROCEDURES*/
+
+CREATE PROCEDURE TEST
+AS 
+SELECT *
+FROM EmployeeDemographics
+
+
+EXEC TEST
+
+SELECT*
+FROM EmployeeDemographics
+
+SELECT *
+FROM EmployeeSalary
+
+DROP TABLE IF EXISTS EmployeeSalary
+
+Create Table EmployeeSalary 
+(EmployeeID int, 
+JobTitle varchar(50), 
+Salary int
+)
+
+Insert Into EmployeeSalary VALUES
+(1001, 'Salesman', 45000),
+(1002, 'Receptionist', 36000),
+(1003, 'Salesman', 63000),
+(1004, 'Accountant', 47000),
+(1005, 'HR', 50000),
+(1006, 'Regional Manager', 65000),
+(1007, 'Supplier Relations', 41000),
+(1008, 'Salesman', 48000),
+(1009, 'Accountant', 42000)
+
+CREATE PROCEDURE temp_Employee1
+AS 
+CREATE TABLE #temp_Employee(
+Jobtitle Varchar(50),
+EmployeesPerJOb int,
+Avgage int,
+AvgSalary int)
+
+INSERT INTO #temp_Employee
+SELECT Jobtitle, COUNT(Jobtitle), Avg(Age), Avg(Salary)
+FROM EmployeeDemographics Dem
+JOIN EmployeeSalary Sal
+ON Dem.EmployeeID= Sal.EmployeeID
+GROUP BY JobTitle
+
+
+EXEC temp_Employee1
+
+SELECT *
+FROM #temp_Employee
+
+
+/* Topic SUBQUERIES (In Select , From, and Where Statement)  */
+
+Select * 
+From EmployeeSalary
+
+-- SubQuery in Select
+Select EmployeeID, Salary , (SELECT AVG(Salary)FROM EmployeeSalary) as AVGSalaryofall
+From EmployeeSalary
+ORDER BY Salary
+
+
+-- partition BY 
+
+Select EmployeeID,JobTitle, Salary , AVG(Salary) OVER () as AVGSalaryofall
+From EmployeeSalary
+ORDER BY Salary
+
+
+--- SUB QUERY in FROm
+
+SELECT a.Salary 
+FROM ( SELECT EmployeeID, Salary, AVG( SALARY)Over ()AS AVGSalary
+FRom EmployeeSalary) a
+--- SUBQUERY BY WHERE
+
+SELECT employeeID, JobTitle, Salary
+FROm EMployeeSalary
+WHERE EmployeeID IN ( SELECT EmployeeID
+FROM EmployeeDemographics
+Where Age>30)
+
+
+
 
 
 
