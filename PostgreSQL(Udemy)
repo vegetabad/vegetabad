@@ -1,5 +1,8 @@
 
 
+
+
+
 create table departments (
     department varchar(100),
     division varchar(100),
@@ -1062,4 +1065,308 @@ insert into employees values (997, 'Rhianna', 'Trynor', 'rtrynorro@uiuc.edu', '2
 insert into employees values (998, 'Brandice', 'Gillicuddy', 'bgillicuddyrp@adobe.com', '2014-11-30', 'Phones & Tablets', 'F', 134058, 2);
 insert into employees values (999, 'Kingston', 'Piwall', 'kpiwallrq@nyu.edu', '2012-07-07', 'Music', 'M', 45679, 7);
 insert into employees values (1000, 'Jacquelin', 'Cassam', 'jcassamrr@cam.ac.uk', '2010-01-27', 'Music', 'F', 28726, 2);
+
+
+
+ 
+
+SELECT UPPER (First_Name)
+FROM employees
+
+SELECT LOWER (last_name)
+FROM employees
+
+--Concatination use ||
+
+SELECT first_name ||last_name as FullName
+From EMployees
+
+SELECT first_name ||' '||last_name as Full_Name , First_name, Last_Name
+From EMployees
+
+
+--Boolean Expression
+
+SELECT * 
+FROM Employees 
+
+
+SELECT First_Name , ( Salary>150000)
+FROM EMployees 
+ORDER BY Salary desc
+
+
+SELECT First_Name , ('Clothing' In (Department))
+FROM Employees
+ORDER BY Department Desc
+
+
+--SUBSTRING
+
+SELECT SUBSTRING ('THIS IS A TEST DATA'FROM 1 FOR 4)
+
+SELECT ('THIS IS A TEST DATA') as TEST_DATA
+
+SELECT SUBSTRING ('THIS IS A TEST DATA'FROM 1 FOR 4) 
+
+-- REPLACE
+
+SELECT *
+FROM Students
+
+SELECT student_Name, REPLACE (student_name,'Samantha','Sam' ) Replaced_Name 
+FROm STUDENTS
+
+
+SELECT * 
+FROM Departments
+
+SELECT Department, department||'   '||'Department'  
+FROm Departments 
+
+
+--POSITION ( looking for email domain )
+
+SELECT * 
+FROM EMployees
+
+SELECT email, SUBSTRING(email,POSITION ( '@' IN email)+1) 
+FROm Employees
+WHERE email is NOT NULL
+
+
+-- COALESCE changing null to something
+
+SELECT email
+FROM Employees
+
+SELECT email,COALESCE ( email,'NOTHING')as email
+FROM Employees
+
+
+
+--GROUPING FUNCTION use to get aggregate
+
+SELECT *
+FROM Employees
+
+SELECT MAX (Salary) 
+FROM Employees
+
+
+SELECT MIN (Salary) 
+FROM Employees
+
+SELECT AVG(SALARY)
+FROM EMployees
+
+SELECT ROUND (AVG(SALARY))
+FROM EMployees
+
+
+SELECT COUNT(Employee_id)
+FROM Employees
+
+SELECT COUNT(Email)
+FROM Employees
+
+SELECT COUNT(*)
+FROM Employees
+
+SELECT SUM (SALARY)
+FROM Employees
+
+
+SELECT SUM (SALARY)
+FROM Employees
+WHERE Department='Toys'
+
+
+--ASSIGNMENT
+
+SELECT *
+FROM Professors
+
+SELECT Last_name, Department
+FROM Professors
+WHERE Department='Science' And last_name = 'Chong' 
+
+SELECT Last_Name, Salary,(Salary >95000) as Highly_Paid
+FROM Professors
+ORDER BY Salary desc
+
+SELECT Last_name,  UPPER (SUBSTRING (Department,1,3 )),Salary, hire_date
+FROM Professors
+
+SELECT MAX(Salary)as Max_Salary, MIN ( SALARY) as Min_Salary
+FROM Professors
+WHERE Last_Name !=('Wilson')
+
+SELECT MIN(hire_Date)
+FROM Professors
+
+
+--GROUPING and HAVING CLAUSES
+
+CREATE TABLE Cars(Make Varchar(50))
+
+INSERT INTO cars VALUES ('HONDA');
+
+INSERT INTO cars VALUES ('HONDA');
+
+INSERT INTO cars VALUES ('HONDA');
+
+INSERT INTO cars VALUES ('TOYOTA');
+
+INSERT INTO cars VALUES ('TOYOTA');
+INSERT INTO cars VALUES ('NISSAN');
+
+SELECT COUNT(*) Total_Cars
+FROM Cars
+
+SELECT make as car_types,COUNT(*) Total_Cars
+FROM Cars
+GROUP BY make
+
+SELECT *
+FROM Cars
+
+
+SELECT *
+FROM Employees
+
+SELECT department,SUM(SALARY)
+FROM Employees
+GROUP BY Department
+ORDER BY SUM(Salary)
+
+SELECT Department,COUNT(*)
+FROM Employees
+GROUP BY Department
+ORDER BY COUNT(*)
+
+SELECT Department,COUNT(*)Total_employees ,
+AVG(salary) Avg_Sal, MIN(Salary) Min_sal,MAX(Salary)Max_Salary
+FROM Employees
+GROUP BY Department
+ORDER BY COUNT(*)
+
+SELECT Department,Gender,COUNT(*) gender_wisetotal
+FROM Employees
+GROUP BY Department , Gender
+ORDER BY Department
+
+--HAving is used to condition aggregate data not WHERE
+SELECT Department,COUNT(*)
+FROM Employees
+GROUP BY Department
+HAVING COUNT(*) >35
+ORDER BY COUNT(*)
+
+SELECT First_Name, COUNT(*)
+FROM Employees
+GROUP BY First_Name
+HAVING COUNT(*)>1
+
+
+SELECT Department
+FROM Employees
+GROUP BY Department
+
+SUBSTRING(email,POSITION ( '@' IN email)+1) 
+
+SELECT SUBSTRING(email,POSITION ('@'IN Email)+1)email_Domain,
+COUNT(*)
+FROM Employees
+WHERE email != 'NULL'
+GROUP BY SUBSTRING(email,POSITION ('@'IN Email)+1)
+ORDER BY COUNT(*) desc
+
+
+SELECT Gender, Region_id , MIN(Salary) MIN_SALARY,
+MAX(Salary) MAX_SALARY,
+ROUND (AVG(SALARY)) AVG_SALARY
+FROM Employees
+GROUP BY Gender, Region_ID
+ORDER BY Gender , Region_id
+
+---ASSIGNMENT 4
+
+CREATE TABLE fruit_imports
+(
+	id integer,
+	Friut_name varchar(20),
+	season varchar(10),
+	state varchar(20),
+	supply integer,
+	cost_per_unit decimal
+);
+
+insert into fruit_imports values(1, 'Apple', 'All Year', 'Kansas', 32900, 0.22);
+insert into fruit_imports values(2, 'Avocado', 'All Year', 'Nebraska', 27000, 0.15);
+insert into fruit_imports values(3, 'Coconut', 'All Year', 'California', 15200, 0.75);
+insert into fruit_imports values(4, 'Orange', 'Winter', 'California', 17000, 0.22);
+insert into fruit_imports values(5, 'Pear', 'Winter', 'Iowa', 37250, 0.17);
+insert into fruit_imports values(6, 'Lime', 'Spring', 'Indiana', 40400, 0.15);
+insert into fruit_imports values(7, 'Mango', 'Spring', 'Texas', 13650, 0.60);
+insert into fruit_imports values(8, 'Orange', 'Spring', 'Iowa', 18000, 0.26);
+insert into fruit_imports values(9, 'Apricot', 'Spring', 'Indiana', 55000, 0.20);
+insert into fruit_imports values(10, 'Cherry', 'Summer', 'Texas', 62150, 0.02);
+insert into fruit_imports values(11, 'Cantaloupe', 'Summer', 'Texas', 8000, 0.49);
+insert into fruit_imports values(12, 'Apricot', 'Summer', 'Kansas', 14500, 0.20);
+insert into fruit_imports values(13, 'Mango', 'Summer', 'Texas', 17000, 0.68);
+insert into fruit_imports values(14, 'Pear', 'Fall', 'Nebraska', 30500, 0.12);
+insert into fruit_imports values(15, 'Grape', 'Fall', 'Illinois', 72500, 0.35);
+
+
+
+SELECT *
+FROM Fruit_imports
+
+
+SELECT STATE , MAX(Supply)
+FROM Fruit_Imports
+GROUP BY State
+ORDER BY Max(Supply) desc
+LIMIT 1
+
+
+SELECT Season ,MAX(Cost_per_unit)as most_Expensive_cost_Per_unit
+From Fruit_imports
+GROUP BY Season
+ORDER BY MAX(Cost_per_unit) desc
+
+
+
+SELECT Friut_Name as FRUIT_Name, State ,COUNT(Friut_Name)
+From Fruit_imports
+GROUP BY Friut_Name , state
+HAVING COUNT(Friut_Name)>1
+
+
+SELECT Season ,COUNT(Season)
+FROM fruit_imports
+GROUP BY Season 
+HAVING count(Season)>2
+ORDER BY Count(Season)
+
+SELECT *
+FROM Fruit_imports
+
+SELECT state ,Supply , cost_per_unit, (supply*cost_per_unit) Total_Cost
+FROM Fruit_imports
+ORDER BY Total_Cost desc
+LIMIT 1
+
+
+CREATE table fruits (fruit_name varchar(10));
+INSERT INTO fruits VALUES ('Orange');
+INSERT INTO fruits VALUES ('Apple');
+INSERT INTO fruits VALUES (NULL);
+INSERT INTO fruits VALUES (NULL);
+
+SELECt COUNT(COALESCE(Fruit_Name,'something')) Fruit_Name
+FROM FRUITS
+
+
 
