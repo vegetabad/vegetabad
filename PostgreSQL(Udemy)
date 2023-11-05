@@ -1368,5 +1368,362 @@ INSERT INTO fruits VALUES (NULL);
 SELECt COUNT(COALESCE(Fruit_Name,'something')) Fruit_Name
 FROM FRUITS
 
+SELECT * FROM EMPLOYEES
+SELECT * FROM Departments
+SELECT * FROM REgions
+
+SELECT * FROM EMPLOYEES 
+WHERE region_id IN ( SELECT region_id FROM Regions WHERE Country='United States')
+
+SELECT * FROM EMPLOYEES 
+WHERE region_id > ALL ( SELECT region_id FROM Regions WHERE Country='United States')
+
+
+SELECT * FROM EMPLOYEES
+WHERE hire_date > ALL ( Select hire_date FROM Employees WHERE department ='Maintenance') AND 
+Department IN ( SELECT Department FROM  Departments 
+					WHERE Division= 'Kids') 
+					
+
+-- Same Salary-
+
+SELECT * FROM Employees
+
+SELECT Salary FROM (SELECT Salary , COUNT(*)
+FROm EMployees
+GROUP BY Salary
+ORDER BY Count(*) desc , Salary desc
+				LIMIT 1)
+
+
+CREATE Table Dupes (Id integer, Name Varchar(10));
+INSERT INTO dupes Values (1,'Frank');
+INSERT INTO dupes Values (2,'Frank');
+INSERT INTO dupes Values (3,'Robert');
+INSERT INTO dupes Values (4,'Robert');
+INSERT INTO dupes Values (5,'Sam');
+INSERT INTO dupes Values (6,'Frank');
+INSERT INTO dupes Values (7,'Peter');
+
+
+SELECT * FROM dupes
+
+SELECT min(id), Name
+FROM dupes
+Group by Name
+order By Min(Id)
+
+DELETE FROM Dupes
+WHERE id NOT IN (SELECT min(id)
+FROM dupes
+Group by Name
+)
+SELECT * FROM Dupes
+
+
+drop table dupes
+
+
+-- deleting the max and min salary and find the avg
+
+
+SELECT Round(AVG(Salary)) FROM Employees
+WHERE SALARY NOT IN 
+(
+(SELECT MAX(Salary)FROM EMployees), 
+ (SELECT MIN( SALARY)FROM EMployees)
+)
+
+
+--Assignment
+SELECT * From Students
+
+SELECT * FROM Student_enrollMent
+
+select * from Courses
+
+-- Assignment Using subqueries only, write a SQL statement that returns the names of those 
+  -- students that are taking the courses Physics and US History.
+
+SELECT Student_Name FROM Students
+WHERE Student_no IN ( SELECT Student_no FROM Student_Enrollment 
+					WHERE course_no IN ( Select Course_No FROM Courses 
+										WHERE Course_title IN ('Physics','US History') ))
+										
+		
+--Using subqueries only, 
+--write a query that returns the name of the student that is 
+--taking the highest number of courses.
+
+SELECT Student_Name FROM Students
+WHERE student_no IN ( SELECT Student_no FROM (SELECT Student_no , COUNT(*) 
+					 FROM Student_Enrollment
+					 GROUP BY Student_no
+					 ORDER BY Count(*) desc 
+					Limit 1) a)
+					
+--Write a query to find the student that is the oldest. 
+--You are not allowed to use LIMIT or the ORDER BY clause to solve this problem
+
+SELECT * 
+FROM Students
+WHERE Age = ( SELECT Max(Age) FROM Students)
+
+--- Conditional expre/ case statement
+
+SELECT First_name , Salary,
+CASE
+    WHEN Salary < 100000 THEN 'UNDER PAID'
+	WHEN SALARY > 100000 AND Salary <150000 THEN 'PAID WELL'
+ELSE 'EXECUTIVE'
+END
+FROM Employees
+Order BY Salary desc
+
+
+SELECT a.category,COUNT(Category) FROM
+(SELECT First_name , Salary,
+CASE
+    WHEN Salary < 100000 THEN 'UNDER PAID'
+	WHEN SALARY > 100000 AND Salary <150000 THEN 'PAID WELL'
+WHEN Salary> 150000 THEN 'EXECUTIVE'
+ELSE 'Unpaid'
+END as Category
+FROM Employees
+Order BY Salary desc) a
+GROUP BY a.Category
+ORDER BY COUNT(Category) 
+
+
+SELECT SUM ( CASE WHEN Salary < 100000 THEN 1 ELSE 0 END) as Under_paid,
+SUM ( CASE WHEN Salary > 100000 AND Salary < 150000 THEN 1 ELSE 0 END) as Well_paid,
+SUM ( CASE WHEN Salary > 150000 THEN 1 ELSE 0 END) as Executive
+FROM Employees
+
+
+---- Transposing data using Case
+
+SELECT Department, COUNT(*)
+FROM EMployees
+WHERE Department IN ('Sports', 'Tools','Clothing', 'Computers')
+GROUP BY Department 
+
+SELECT 
+SUM (CASE WHEN Department='Tools' THEN 1 Else 0 END) as tools_employees,
+SUM (CASE WHEN Department='Sports' THEN 1 Else 0 END) as Sports_employees,
+SUM (CASE WHEN Department='Clothing' THEN 1 Else 0 END) as Clothing_employees,
+SUM (CASE WHEN Department='Computers' THEN 1 Else 0 END) as Computers_employees
+FROM EMployees 
+
+
+SELECT * 
+FROM Regions
+
+SELECT * 
+FROM EMployees
+
+
+SELECT First_name, 
+CASE WHEN Region_id =1 Then ( SELECT Country FROM Regions WHERE Region_id = 1) END as RegionID_1,
+
+CASE WHEN Region_id =2 Then ( SELECT Country FROM Regions WHERE Region_id = 2) END as RegionID_2,
+
+CASE WHEN Region_id =3 Then ( SELECT Country FROM Regions WHERE Region_id = 3) END as RegionID_3,
+
+CASE WHEN Region_id =4 Then ( SELECT Country FROM Regions WHERE Region_id = 4) END as RegionID_4,
+
+CASE WHEN Region_id =5 Then ( SELECT Country FROM Regions WHERE Region_id = 5) END as RegionID_5,
+
+CASE WHEN Region_id =6 Then ( SELECT Country FROM Regions WHERE Region_id = 6) END as RegionID_6,
+
+CASE WHEN Region_id =7 Then ( SELECT Country FROM Regions WHERE Region_id = 7) END as RegionID_7
+FROM EMployees
+
+SELECT * FROM EMPLOYEES
+SELECT * FROM Departments
+SELECT * FROM REgions
+
+SELECT * FROM EMPLOYEES 
+WHERE region_id IN ( SELECT region_id FROM Regions WHERE Country='United States')
+
+SELECT * FROM EMPLOYEES 
+WHERE region_id > ALL ( SELECT region_id FROM Regions WHERE Country='United States')
+
+
+SELECT * FROM EMPLOYEES
+WHERE hire_date > ALL ( Select hire_date FROM Employees WHERE department ='Maintenance') AND 
+Department IN ( SELECT Department FROM  Departments 
+					WHERE Division= 'Kids') 
+					
+
+-- Same Salary-
+
+SELECT * FROM Employees
+
+SELECT Salary FROM (SELECT Salary , COUNT(*)
+FROm EMployees
+GROUP BY Salary
+ORDER BY Count(*) desc , Salary desc
+				LIMIT 1)
+
+
+CREATE Table Dupes (Id integer, Name Varchar(10));
+INSERT INTO dupes Values (1,'Frank');
+INSERT INTO dupes Values (2,'Frank');
+INSERT INTO dupes Values (3,'Robert');
+INSERT INTO dupes Values (4,'Robert');
+INSERT INTO dupes Values (5,'Sam');
+INSERT INTO dupes Values (6,'Frank');
+INSERT INTO dupes Values (7,'Peter');
+
+
+SELECT * FROM dupes
+
+SELECT min(id), Name
+FROM dupes
+Group by Name
+order By Min(Id)
+
+DELETE FROM Dupes
+WHERE id NOT IN (SELECT min(id)
+FROM dupes
+Group by Name
+)
+SELECT * FROM Dupes
+
+
+drop table dupes
+
+
+-- deleting the max and min salary and find the avg
+
+
+SELECT Round(AVG(Salary)) FROM Employees
+WHERE SALARY NOT IN 
+(
+(SELECT MAX(Salary)FROM EMployees), 
+ (SELECT MIN( SALARY)FROM EMployees)
+)
+
+
+--Assignment
+SELECT * From Students
+
+SELECT * FROM Student_enrollMent
+
+select * from Courses
+
+-- Assignment Using subqueries only, write a SQL statement that returns the names of those 
+  -- students that are taking the courses Physics and US History.
+
+SELECT Student_Name FROM Students
+WHERE Student_no IN ( SELECT Student_no FROM Student_Enrollment 
+					WHERE course_no IN ( Select Course_No FROM Courses 
+										WHERE Course_title IN ('Physics','US History') ))
+										
+		
+--Using subqueries only, 
+--write a query that returns the name of the student that is 
+--taking the highest number of courses.
+
+SELECT Student_Name FROM Students
+WHERE student_no IN ( SELECT Student_no FROM (SELECT Student_no , COUNT(*) 
+					 FROM Student_Enrollment
+					 GROUP BY Student_no
+					 ORDER BY Count(*) desc 
+					Limit 1) a)
+					
+--Write a query to find the student that is the oldest. 
+--You are not allowed to use LIMIT or the ORDER BY clause to solve this problem
+
+SELECT * 
+FROM Students
+WHERE Age = ( SELECT Max(Age) FROM Students)
+
+--- Conditional expre/ case statement
+
+SELECT First_name , Salary,
+CASE
+    WHEN Salary < 100000 THEN 'UNDER PAID'
+	WHEN SALARY > 100000 AND Salary <150000 THEN 'PAID WELL'
+ELSE 'EXECUTIVE'
+END
+FROM Employees
+Order BY Salary desc
+
+
+SELECT a.category,COUNT(Category) FROM
+(SELECT First_name , Salary,
+CASE
+    WHEN Salary < 100000 THEN 'UNDER PAID'
+	WHEN SALARY > 100000 AND Salary <150000 THEN 'PAID WELL'
+WHEN Salary> 150000 THEN 'EXECUTIVE'
+ELSE 'Unpaid'
+END as Category
+FROM Employees
+Order BY Salary desc) a
+GROUP BY a.Category
+ORDER BY COUNT(Category) 
+
+
+SELECT SUM ( CASE WHEN Salary < 100000 THEN 1 ELSE 0 END) as Under_paid,
+SUM ( CASE WHEN Salary > 100000 AND Salary < 150000 THEN 1 ELSE 0 END) as Well_paid,
+SUM ( CASE WHEN Salary > 150000 THEN 1 ELSE 0 END) as Executive
+FROM Employees
+
+
+---- Transposing data using Case
+
+SELECT Department, COUNT(*)
+FROM EMployees
+WHERE Department IN ('Sports', 'Tools','Clothing', 'Computers')
+GROUP BY Department 
+
+SELECT 
+SUM (CASE WHEN Department='Tools' THEN 1 Else 0 END) as tools_employees,
+SUM (CASE WHEN Department='Sports' THEN 1 Else 0 END) as Sports_employees,
+SUM (CASE WHEN Department='Clothing' THEN 1 Else 0 END) as Clothing_employees,
+SUM (CASE WHEN Department='Computers' THEN 1 Else 0 END) as Computers_employees
+FROM EMployees 
+
+
+SELECT * 
+FROM Regions
+
+SELECT * 
+FROM EMployees
+
+
+SELECT First_name, 
+CASE WHEN Region_id =1 Then ( SELECT Country FROM Regions WHERE Region_id = 1) END as RegionID_1,
+CASE WHEN Region_id =2 Then ( SELECT Country FROM Regions WHERE Region_id = 2) END as RegionID_2,
+CASE WHEN Region_id =3 Then ( SELECT Country FROM Regions WHERE Region_id = 3) END as RegionID_3,
+CASE WHEN Region_id =4 Then ( SELECT Country FROM Regions WHERE Region_id = 4) END as RegionID_4,
+CASE WHEN Region_id =5 Then ( SELECT Country FROM Regions WHERE Region_id = 5) END as RegionID_5,
+CASE WHEN Region_id =6 Then ( SELECT Country FROM Regions WHERE Region_id = 6) END as RegionID_6,
+CASE WHEN Region_id =7 Then ( SELECT Country FROM Regions WHERE Region_id = 7) END as RegionID_7
+FROM EMployees
+
+SELECT United_States + Asia + Canada From (
+SELECT COUNT(a.region_1)+COUNT(a.region_2)+ COUNT(a.region_3)as United_States,
+COUNT (a.region_4)+COUNT (a.region_5) as Asia,
+COUNT (a.region_6) + COUNT (a.region_7) as Canada
+FROM
+(
+SELECT First_name, 
+CASE WHEN Region_id =1 Then ( SELECT Country FROM Regions WHERE Region_id = 1) END as RegionID_1,
+CASE WHEN Region_id =2 Then ( SELECT Country FROM Regions WHERE Region_id = 2) END as RegionID_2,
+CASE WHEN Region_id =3 Then ( SELECT Country FROM Regions WHERE Region_id = 3) END as RegionID_3,
+CASE WHEN Region_id =4 Then ( SELECT Country FROM Regions WHERE Region_id = 4) END as RegionID_4,
+CASE WHEN Region_id =5 Then ( SELECT Country FROM Regions WHERE Region_id = 5) END as RegionID_5,
+CASE WHEN Region_id =6 Then ( SELECT Country FROM Regions WHERE Region_id = 6) END as RegionID_6,
+CASE WHEN Region_id =7 Then ( SELECT Country FROM Regions WHERE Region_id = 7) END as RegionID_7
+FROM EMployees) a
+
+
+
+
+
+
 
 
